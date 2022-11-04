@@ -2,7 +2,7 @@
 
 source env.sh
 
-printf "Env variables:\nbroker: %s\ntopic: %s\nconfig: %s\n\n" "$broker" "$topic" "$config"
+printf "Env variables:\nbroker: %s:%s\ntopic: %s\nconfig: %s\n\n" "$broker" "$port" "$topic" "$config"
 
 # kafka needs zookeeper to sync all brokers
 # we start zookeeper only if it is not running
@@ -43,8 +43,8 @@ if [ "$config" = "ssl" ]; then
     -e KAFKA_CFG_SSL_TRUSTSTORE_LOCATION=/opt/bitnami/kafka/config/certs/kafka.truststore.jks \
     -e KAFKA_CFG_SSL_TRUSTSTORE_PASSWORD=secret \
     -e KAFKA_SECURITY_PROTOCOL=SSL \
-    -e KAFKA_CFG_LISTENERS=CLIENT://:9093,EXTERNAL://:9092 \
-    -e KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://localhost:9093,EXTERNAL://"$broker" \
+    -e KAFKA_CFG_LISTENERS=CLIENT://:9093,EXTERNAL://:"$port" \
+    -e KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://localhost:9093,EXTERNAL://"$broker":"$port" \
     -e KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:SSL,SSL:SSL,PLAINTEXT:PLAINTEXT \
     -e KAFKA_SECURITY_INTER_BROKER_PROTOCOL=CLIENT \
     -e KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT \

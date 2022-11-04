@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ../env.sh
-printf "Env variables:\nbroker: %s\ntopic: %s\nconfig: %s\n\n" "$broker" "$topic" "$config"
+printf "Env variables:\nbroker: %s:%s\ntopic: %s\nconfig: %s\n\n" "$broker" "$port" "$topic" "$config"
 
 BASE_IMAGE="alpine:3.15.0"
 printf "Setup the Dockerfile from %s\n" "$BASE_IMAGE"
@@ -21,7 +21,7 @@ RUN chmod +x consumer.sh producer.sh
 
 COPY cer-client/ cer-common/ cer/
 
-ENV broker=$broker
+ENV broker=$broker:$port
 ENV topic=$topic
 ENV config=$config.conf
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ../env.sh
-printf "Env variables:\nbroker: %s\ntopic: %s\nconfig: %s\n\n" "$broker" "$topic" "$config"
+printf "Env variables:\nbroker: %s:%s\ntopic: %s\nconfig: %s\n\n" "$broker" "$port" "$topic" "$config"
 
 BASE_IMAGE="bitnami/kafka:3.1.0"
 printf "Setup the Dockerfile from %s\n" "$BASE_IMAGE"
@@ -15,7 +15,7 @@ COPY client/consumer.sh client/producer.sh client/create-topic.sh client/*.conf 
 
 COPY cer-server/ cer/
 
-ENV broker=$broker
+ENV broker=$broker:$port
 ENV topic=$topic
 ENV config=$config.conf
 
