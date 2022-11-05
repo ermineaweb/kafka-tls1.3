@@ -4,7 +4,7 @@ printf "start kafka producer\nbroker: %s\ntopic: %s\nconfig: %s\n\n" $broker $to
 
 while true
 do
-    read -p "> " message
+    read -r -p "> " message
     printf "%s" "$message" | kcat -F "$config" -P -p key1 -t "$topic" -b "$broker"
 done
 
