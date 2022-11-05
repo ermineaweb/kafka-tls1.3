@@ -11,7 +11,6 @@ FROM ${BASE_IMAGE}
 
 RUN apk add --update --no-cache \
 	bash \
-	curl \
 	kafkacat
 
 WORKDIR /app
