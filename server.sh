@@ -6,11 +6,7 @@ printf "Env variables:\nbroker: %s:%s\ntopic: %s\nconfig: %s\n\n" "$broker" "$po
 
 # kafka needs zookeeper to sync all brokers
 # we start zookeeper only if it is not running
-if [ -z "$1" ]; then
-    echo "Run only kafka"
-    docker stop kafka-server
-    sleep 2
-else
+if [ "$1" = "zoo" ]; then
     echo "Run zookeeper and kafka"
     docker stop $(docker ps -qf "name=^kafka-*")
 
@@ -23,6 +19,10 @@ else
     bitnami/zookeeper:latest
     
     sleep 30
+else
+    echo "Run only kafka"
+    docker stop kafka-server
+    sleep 2
 fi
 
 SERVER_STORE=$(pwd)/cer-server
@@ -50,7 +50,6 @@ if [ "$config" = "ssl" ]; then
     -e KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT \
     -e KAFKA_CFG_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM= \
     bitnami/kafka:3.1.0
-
 elif [ "$config" = "nossl" ]; then
     docker run -d --rm \
     --net=host \
